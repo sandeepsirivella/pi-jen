@@ -1,7 +1,5 @@
 pipeline {
-    agent docker {
-        image 'python:3.10'
-        }
+    agent any
 
     environment {
         APP_NAME = "simpleapp-python"
@@ -17,8 +15,12 @@ pipeline {
 
         stage('Build') {
             steps {
-                echo 'Building the application...'
-                sh 'pip install -r requirements.txt'
+                echo "Building the application..."
+                sh '''
+                python3 -m venv venv
+                . venv/bin/activate
+                pip install -r requirements.txt
+                '''
             }
         }
 
